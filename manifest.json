@@ -1,10 +1,10 @@
 {
 	"id": "auto-linker",
 	"name": "Auto Linker",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "0.15.0",
 	"description": "Automatically suggests and creates links to matching titles, headings, and blocks as you type",
-	"author": "Auto Linker Plugin",
+	"author": "Lorenz Soriano",
 	"authorUrl": "",
 	"fundingUrl": "",
 	"isDesktopOnly": false

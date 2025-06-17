@@ -84,7 +84,7 @@ class AutoLinkerSuggest extends EditorSuggest<LinkSuggestion> {
 								file: file,
 								type: 'heading',
 								displayText: `${'#'.repeat(heading.level)} ${heading.heading} (${file.basename})`,
-								linkText: `${file.basename}#${heading.heading}`
+								linkText: `#${heading.heading}`
 							});
 						}
 					}
@@ -103,7 +103,7 @@ class AutoLinkerSuggest extends EditorSuggest<LinkSuggestion> {
 									file: file,
 									type: 'block',
 									displayText: `🔗 ${blockLine.trim().substring(0, 50)}... (${file.basename})`,
-									linkText: `${file.basename}#^${blockId}`
+									linkText: `#^${blockId}`
 								});
 							}
 						}

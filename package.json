@@ -1,6 +1,6 @@
 {
   "name": "obsidian-auto-linker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Automatically suggests and creates links to matching titles, headings, and blocks as you type",
   "main": "main.js",
   "scripts": {
@@ -15,7 +15,7 @@
     "suggestions",
     "productivity"
   ],
-  "author": "Auto Linker Plugin",
+  "author": "Lorenz Soriano",
   "license": "MIT",
   "devDependencies": {
     "@types/node": "^16.11.6",
