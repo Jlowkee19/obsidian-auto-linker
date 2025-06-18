@@ -145,12 +145,30 @@ class AutoLinkerSuggest extends EditorSuggest<LinkSuggestion> {
 			const isInLinkContext = beforeStart.endsWith('[[');
 			
 			let replacement: string;
+			
+			// Generate display text for headers and blocks
+			let displayText = '';
+			if (suggestion.type === 'heading') {
+				// For headings, use the heading text without the # symbols
+				displayText = suggestion.title;
+			} else if (suggestion.type === 'block') {
+				// For blocks, use the block content (truncated if too long)
+				displayText = suggestion.title.length > 50 ? 
+					suggestion.title.substring(0, 50).trim() + '...' : 
+					suggestion.title.trim();
+			}
+			
+			// Create the full link with display text for headers and blocks
+			const fullLinkText = (suggestion.type === 'heading' || suggestion.type === 'block') && displayText ? 
+				`${suggestion.linkText}|${displayText}` : 
+				suggestion.linkText;
+			
 			if (isInLinkContext) {
 				// We're in [[ context, just insert the link text
-				replacement = suggestion.linkText + ']]';
+				replacement = fullLinkText + ']]';
 			} else {
 				// We're not in link context, wrap with [[]]
-				replacement = `[[${suggestion.linkText}]]`;
+				replacement = `[[${fullLinkText}]]`;
 			}
 
 			editor.replaceRange(replacement, start, end);

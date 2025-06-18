@@ -85,12 +85,13 @@ var AutoLinkerSuggest = class extends import_obsidian.EditorSuggest {
         if (cache.headings) {
           for (const heading of cache.headings) {
             if (heading.heading.toLowerCase().includes(query)) {
+              const linkText = file === context.file ? `#${heading.heading}` : `${file.basename}#${heading.heading}`;
               suggestions.push({
                 title: heading.heading,
                 file,
                 type: "heading",
                 displayText: `${"#".repeat(heading.level)} ${heading.heading} (${file.basename})`,
-                linkText: `#${heading.heading}`
+                linkText
               });
             }
           }
@@ -102,12 +103,13 @@ var AutoLinkerSuggest = class extends import_obsidian.EditorSuggest {
             for (const [blockId, block] of Object.entries(cache.blocks)) {
               const blockLine = lines[block.position.start.line];
               if (blockLine && blockLine.toLowerCase().includes(query)) {
+                const linkText = file === context.file ? `#^${blockId}` : `${file.basename}#^${blockId}`;
                 suggestions.push({
                   title: blockLine.trim(),
                   file,
                   type: "block",
                   displayText: `\u{1F517} ${blockLine.trim().substring(0, 50)}... (${file.basename})`,
-                  linkText: `#^${blockId}`
+                  linkText
                 });
               }
             }
@@ -141,10 +143,17 @@ var AutoLinkerSuggest = class extends import_obsidian.EditorSuggest {
       const beforeStart = line.substring(0, start.ch);
       const isInLinkContext = beforeStart.endsWith("[[");
       let replacement;
+      let displayText = "";
+      if (suggestion.type === "heading") {
+        displayText = suggestion.title;
+      } else if (suggestion.type === "block") {
+        displayText = suggestion.title.length > 50 ? suggestion.title.substring(0, 50).trim() + "..." : suggestion.title.trim();
+      }
+      const fullLinkText = (suggestion.type === "heading" || suggestion.type === "block") && displayText ? `${suggestion.linkText}|${displayText}` : suggestion.linkText;
       if (isInLinkContext) {
-        replacement = suggestion.linkText + "]]";
+        replacement = fullLinkText + "]]";
       } else {
-        replacement = `[[${suggestion.linkText}]]`;
+        replacement = `[[${fullLinkText}]]`;
       }
       editor.replaceRange(replacement, start, end);
     }
