@@ -79,12 +79,14 @@ class AutoLinkerSuggest extends EditorSuggest<LinkSuggestion> {
 				if (cache.headings) {
 					for (const heading of cache.headings) {
 						if (heading.heading.toLowerCase().includes(query)) {
+							// Include filename for cross-file links, omit for same-file links
+							const linkText = file === context.file ? `#${heading.heading}` : `${file.basename}#${heading.heading}`;
 							suggestions.push({
 								title: heading.heading,
 								file: file,
 								type: 'heading',
 								displayText: `${'#'.repeat(heading.level)} ${heading.heading} (${file.basename})`,
-								linkText: `#${heading.heading}`
+								linkText: linkText
 							});
 						}
 					}
@@ -98,12 +100,14 @@ class AutoLinkerSuggest extends EditorSuggest<LinkSuggestion> {
 						for (const [blockId, block] of Object.entries(cache.blocks)) {
 							const blockLine = lines[block.position.start.line];
 							if (blockLine && blockLine.toLowerCase().includes(query)) {
+								// Include filename for cross-file links, omit for same-file links
+								const linkText = file === context.file ? `#^${blockId}` : `${file.basename}#^${blockId}`;
 								suggestions.push({
 									title: blockLine.trim(),
 									file: file,
 									type: 'block',
 									displayText: `🔗 ${blockLine.trim().substring(0, 50)}... (${file.basename})`,
-									linkText: `#^${blockId}`
+									linkText: linkText
 								});
 							}
 						}

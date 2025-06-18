@@ -5,6 +5,13 @@ All notable changes to the Auto Linker Plugin will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2025-06-17
+
+### Fixed
+- Fixed header and block link navigation issue where links to other files weren't working
+- Links now properly include filename for cross-file references (e.g., `README#📁 Project Structure`)
+- Same-file references continue to use short format (e.g., `#📁 Project Structure`)
+
 ## [1.0.1] - 2025-06-17
 
 ### Changed
